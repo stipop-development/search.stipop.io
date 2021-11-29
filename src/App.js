@@ -22,12 +22,27 @@ const App = () => {
     })
   );  
 
+  //변경된 후 코드
   const addRect = (canvi, stickerImg) => {
-    fabric.Image.fromURL(`${stickerImg}`, img => { 
-      img.scale(0.5);
-      canvi.add(img).renderAll();
-    });
+    
+    fabric.util.loadImage(`${stickerImg}`, img => { 
+
+      const imgInstance = new fabric.Image(img);
+      imgInstance.scale(0.5);
+
+      canvi.add(imgInstance).renderAll();
+
+    }, null, { crossorigin: 'Anonymous'});
   }
+
+  //변경전 코드
+  // const addRect = (canvi, stickerImg) => {
+  //   fabric.Image.fromURL(`${stickerImg}`, img => { 
+  //     img.scale(0.5);
+  //     canvi.add(img).renderAll();
+  //   });
+  // }
+
 
 
   const search = async (searchText) => {
@@ -52,6 +67,21 @@ const App = () => {
     
   }
 
+  const save = () => {
+
+    const data = canvas.toDataURL({
+      format: 'png',
+      quality: 0.8
+    });
+
+    const link = document.createElement('a');
+
+    link.href = data;
+    link.download = 'image.png';
+    link.click();
+
+  }
+
   return(
     <>
     <div style={{float:'left'}}>
@@ -67,6 +97,7 @@ const App = () => {
         <option value="other">Other</option>
       </select>
       <input type="Text" value={searchText} onChange={e => search(e.target.value)} placeholder="search text" /><br/>
+      <button onClick={save} >다운로드</button><br/>
       <ul style={{listStyle:'none'}}>
         {
           searchData.map((item, index) => {
