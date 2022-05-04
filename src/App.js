@@ -184,7 +184,7 @@ const App = () => {
                 Sticker Search Demo
             </Title>
             <Contents>
-                1) Search sticker using the search UI on the left <br />
+                1) Search sticker using the search UI on the left (ex. hi, happy, good) <br />
                 2) Click on a sticker to add it to the board on the right<br />
                 3) Try moving & resizing stickers on the board<br />
                 4) Hover on the sticker from the search UI to find it’s sticker pack name
