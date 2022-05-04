@@ -89,9 +89,22 @@ const SearchInput = styled.input`
     background-position-x: 20px;
 `;
 
+const Name = styled.div`
+    
+    position: absolute;
+    height: 20px;
+
+    display: none;
+    font-size: 15px;
+    background-color: #fefefe;
+`
+
 const ImgList = styled.li`
     float: left;
     padding-right: 32px;
+    &:hover ${Name} {
+        display: block;
+    }
 `;
 
 const App = () => {
@@ -185,7 +198,9 @@ const App = () => {
 
                                 return (
                                     <ImgList key={item.seq} onClick={() => addRect(canvas, item.stickerImg)} >
-                                        <img style={{width:100, height:100}} src={item.stickerImg} />
+                                        <img style={{width:100, height:100}} src={item.stickerImg} title={item.packageName} />
+                                        {/* <Name>{item.packageName}</Name>
+                                        </img> */}
                                     </ImgList>
                                 )
 
