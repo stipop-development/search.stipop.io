@@ -142,22 +142,24 @@ const App = () => {
 		
 		setSearchText(searchText);
 
-		const response = await fetch(`https://messenger.stipop.io/v1/search/test?q=${searchText}&userId=9937&lang=en`, {
-			headers: {
-				'Content-Type': 'application/json',
-				'apikey' : `${process.env.REACT_APP_API_KEY}`
-			}
-			,method: 'GET'
-		});
-
-		const data = await response.json();
-
-		if (data.body.stickerList) {
-			setSearchData(data.body.stickerList);
-		} else {
-			setSearchData([]);
-		}
-		
+        if (searchText.length > 0) {
+            const response = await fetch(`https://messenger.stipop.io/v1/search/test?q=${searchText}&userId=9937&lang=en`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey' : `${process.env.REACT_APP_API_KEY}`
+                }
+                ,method: 'GET'
+            });
+    
+            const data = await response.json();
+    
+            if (data.body.stickerList) {
+                setSearchData(data.body.stickerList);
+            } else {
+                setSearchData([]);
+            }
+        }
+        
 	}
 
 	const save = () => {
