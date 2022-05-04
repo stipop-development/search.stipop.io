@@ -195,10 +195,9 @@ const App = () => {
                     <ul style={{listStyle:'none'}}>
                     {
                         searchData.map((item, index) => {
-
                                 return (
                                     <ImgList key={item.seq} onClick={() => addRect(canvas, item.stickerImg)} >
-                                        <img style={{width:100, height:100}} src={item.stickerImg} title={item.packageName} />
+                                        <img style={{width:100, height:100}} src={item.stickerImg+"?d=100x100"} title={item.packageName} />
                                         {/* <Name>{item.packageName}</Name>
                                         </img> */}
                                     </ImgList>
