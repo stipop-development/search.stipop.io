@@ -142,7 +142,7 @@ const App = () => {
 		
 		setSearchText(searchText);
 
-        if (searchText.length > 0) {
+        if (searchText.length > 1) {
             const response = await fetch(`https://messenger.stipop.io/v1/search/test?q=${searchText}&userId=9937&lang=en`, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -158,8 +158,10 @@ const App = () => {
             } else {
                 setSearchData([]);
             }
+        } else {
+            setSearchData([]);
         }
-        
+
 	}
 
 	const save = () => {
