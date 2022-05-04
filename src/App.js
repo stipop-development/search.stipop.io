@@ -125,7 +125,6 @@ const App = () => {
 
 		}, null, { crossorigin: 'Anonymous'});
 	}
-
 	const search = async (searchText) => {
 		
 		setSearchText(searchText);
@@ -133,7 +132,7 @@ const App = () => {
 		const response = await fetch(`https://messenger.stipop.io/v1/search/test?q=${searchText}&userId=9937&lang=en`, {
 			headers: {
 				'Content-Type': 'application/json',
-				'apikey' : `${process.env.API_KEY}`
+				'apikey' : `${process.env.REACT_APP_API_KEY}`
 			}
 			,method: 'GET'
 		});
