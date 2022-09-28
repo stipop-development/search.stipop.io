@@ -120,9 +120,8 @@ const App = () => {
 
     let client = new Typesense.Client({
         'nodes': [{
-          'host': '13.125.236.229', // For Typesense Cloud use xxx.a1.typesense.net
-          'port': '8108',      // For Typesense Cloud use 443
-          'protocol': 'http'   // For Typesense Cloud use https
+          'host': 'search.stipop.com', // For Typesense Cloud use xxx.a1.typesense.net     // For Typesense Cloud use 443
+          'protocol': 'https'   // For Typesense Cloud use https
         }],
         'apiKey': 'uFFVccKWYkFXJ59HRGAqUflZpkCODaTOaNJZvPRwCjKRlsKf',
         'connectionTimeoutSeconds': 2
