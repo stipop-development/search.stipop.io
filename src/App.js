@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Typesense from 'typesense';
 import styled from "styled-components";
 
 import { fabric } from 'fabric';
@@ -113,7 +114,19 @@ const App = () => {
 	const [apikey, setApiKey] = useState('');
 	const [lang, setLang] = useState('en');
 	const [searchData, setSearchData] = useState([]);
+	const [searchData2, setSearchData2] = useState([]);
 	const [searchText, setSearchText] = useState('');
+	const [searchText2, setSearchText2] = useState('');
+
+    let client = new Typesense.Client({
+        'nodes': [{
+          'host': '13.125.236.229', // For Typesense Cloud use xxx.a1.typesense.net
+          'port': '8108',      // For Typesense Cloud use 443
+          'protocol': 'http'   // For Typesense Cloud use https
+        }],
+        'apiKey': 'uFFVccKWYkFXJ59HRGAqUflZpkCODaTOaNJZvPRwCjKRlsKf',
+        'connectionTimeoutSeconds': 2
+    });
 
 	useEffect(() => {
 		setCanvas(initCanvas());
@@ -138,6 +151,7 @@ const App = () => {
 
 		}, null, { crossorigin: 'Anonymous'});
 	}
+
 	const search = async (searchText) => {
 		
 		setSearchText(searchText);
@@ -146,6 +160,7 @@ const App = () => {
             const response = await fetch(`https://messenger.stipop.io/v1/search/test?q=${searchText}&userId=9937&lang=en`, {
                 headers: {
                     'Content-Type': 'application/json',
+                    // 'apikey' : `985dc59477b993158fe3d44324a38616`
                     'apikey' : `${process.env.REACT_APP_API_KEY}`
                 }
                 ,method: 'GET'
@@ -163,6 +178,31 @@ const App = () => {
         }
 
 	}
+
+    const typesense = async (searchText) => {
+
+		setSearchText2(searchText);
+
+        const searchParameters = {
+            'q'         : `${searchText}`,
+            'query_by'  : 'keyword',
+            'page'      : 1,
+            'per_page'  : 100,
+            'group_by'  : 'stickerId',
+            'group_limit' : 1,
+        };
+
+        const searchResults = await client.collections('stickers_test').documents().search(searchParameters);
+
+        console.log(searchResults);
+
+        // if (searchResults.hits.length > 0) {
+        //     setSearchData2(searchResults.hits);
+        // }
+        if (searchResults.grouped_hits.length > 0) {
+            setSearchData2(searchResults.grouped_hits);
+        }
+    }
 
 	const save = () => {
 
@@ -211,9 +251,28 @@ const App = () => {
                     }
                     </ul>
                 </SearchBox>
-                <CanvasArea>
+
+                <SearchBox>
+                    <SearchInput value={searchText2} onChange={e => typesense(e.target.value)} placeholder="Search sticker.." />
+                    <ul style={{listStyle:'none'}}>
+                    {
+                        searchData2.map((item, index) => {
+                                return (
+                                    // <ImgList key={item.document.stickerId} >
+                                    //     <img style={{width:100, height:100}} src={item.document.stickerImg+"?d=100x100"} />
+                                    // </ImgList>
+                                    <ImgList key={item.hits[0].document.stickerId} >
+                                        <img style={{width:100, height:100}} src={item.hits[0].document.stickerImg+"?d=100x100"} />
+                                    </ImgList>
+                                )
+
+                        })
+                    }
+                    </ul>
+                </SearchBox>
+                {/* <CanvasArea>
                     <canvas id="canvas" />
-                </CanvasArea>
+                </CanvasArea> */}
             </Body>
 		</Box>
 	);
